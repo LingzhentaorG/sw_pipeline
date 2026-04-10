@@ -1,0 +1,199 @@
+event:
+  id: storm_20241231_20250101
+  start: "2024-12-31T00:00:00Z"
+  end: "2025-01-01T23:59:59Z"
+
+sources:
+  gnss_raw:
+    enabled: true
+    mode: internal_pipeline
+  gnss_grid:
+    enabled: true
+    mode: remote
+    metrics: [VTEC, ROTI]
+  gold:
+    enabled: true
+    mode: local
+    inputs:
+      - storage/cache/gold
+  omni:
+    enabled: true
+    mode: local
+    local_root: storage/cache/omni/storm_20241231_20250101
+
+products:
+  gnss_grid:
+    map_producers: [isee]
+
+figures:
+  gnss_maps:
+    metrics: [vtec, roti]
+  overlays:
+    - name: roti_on_gold
+      threshold: 1.0
+      bin_size_deg: 0.5
+      color: red
+      producer: isee
+      max_pair_delta_minutes: 15
+      pairs:
+        - gold_cha_time: "2024-12-31T23:22:00Z"
+          gold_chb_time: "2024-12-31T23:25:00Z"
+          gnss_time: "2024-12-31T23:25:00Z"
+        - gold_cha_time: "2024-12-31T23:52:00Z"
+          gold_chb_time: "2024-12-31T23:55:00Z"
+          gnss_time: "2024-12-31T23:55:00Z"
+  panels:
+    - name: roti_9grid_newyear2025
+      layout:
+        rows: 3
+        cols: 3
+      shared_colorbar: gnss_roti
+      slots:
+        - kind: gnss_roti
+          producer: isee
+          timestamp: "2024-12-31T22:55:00Z"
+          title: "2024-12-31 22:55 UTC"
+        - kind: gnss_roti
+          producer: isee
+          timestamp: "2024-12-31T23:10:00Z"
+          title: "2024-12-31 23:10 UTC"
+        - kind: gnss_roti
+          producer: isee
+          timestamp: "2024-12-31T23:25:00Z"
+          title: "2024-12-31 23:25 UTC"
+        - kind: gnss_roti
+          producer: isee
+          timestamp: "2024-12-31T23:55:00Z"
+          title: "2024-12-31 23:55 UTC"
+        - kind: gnss_roti
+          producer: isee
+          timestamp: "2025-01-01T00:30:00Z"
+          title: "2025-01-01 00:30 UTC"
+        - kind: gnss_roti
+          producer: isee
+          timestamp: "2025-01-01T01:30:00Z"
+          title: "2025-01-01 01:30 UTC"
+        - kind: gnss_roti
+          producer: isee
+          timestamp: "2025-01-01T02:30:00Z"
+          title: "2025-01-01 02:30 UTC"
+        - kind: gnss_roti
+          producer: isee
+          timestamp: "2025-01-01T03:30:00Z"
+          title: "2025-01-01 03:30 UTC"
+        - kind: gnss_roti
+          producer: isee
+          timestamp: "2025-01-01T04:30:00Z"
+          title: "2025-01-01 04:30 UTC"
+    - name: vtec_9grid_newyear2025
+      layout:
+        rows: 3
+        cols: 3
+      shared_colorbar: gnss_vtec
+      slots:
+        - kind: gnss_vtec
+          producer: isee
+          timestamp: "2024-12-31T22:55:00Z"
+          title: "2024-12-31 22:55 UTC"
+        - kind: gnss_vtec
+          producer: isee
+          timestamp: "2024-12-31T23:10:00Z"
+          title: "2024-12-31 23:10 UTC"
+        - kind: gnss_vtec
+          producer: isee
+          timestamp: "2024-12-31T23:25:00Z"
+          title: "2024-12-31 23:25 UTC"
+        - kind: gnss_vtec
+          producer: isee
+          timestamp: "2024-12-31T23:55:00Z"
+          title: "2024-12-31 23:55 UTC"
+        - kind: gnss_vtec
+          producer: isee
+          timestamp: "2025-01-01T00:30:00Z"
+          title: "2025-01-01 00:30 UTC"
+        - kind: gnss_vtec
+          producer: isee
+          timestamp: "2025-01-01T01:30:00Z"
+          title: "2025-01-01 01:30 UTC"
+        - kind: gnss_vtec
+          producer: isee
+          timestamp: "2025-01-01T02:30:00Z"
+          title: "2025-01-01 02:30 UTC"
+        - kind: gnss_vtec
+          producer: isee
+          timestamp: "2025-01-01T03:30:00Z"
+          title: "2025-01-01 03:30 UTC"
+        - kind: gnss_vtec
+          producer: isee
+          timestamp: "2025-01-01T04:30:00Z"
+          title: "2025-01-01 04:30 UTC"
+    - name: gold_6grid_newyear2025
+      layout:
+        rows: 2
+        cols: 3
+      shared_colorbar: gold
+      slots:
+        - kind: gold
+          gold_cha_time: "2024-12-31T22:52:00Z"
+          gold_chb_time: "2024-12-31T22:55:00Z"
+          title: "2024-12-31 22:53 UTC"
+        - kind: gold
+          gold_cha_time: "2024-12-31T23:10:00Z"
+          gold_chb_time: "2024-12-31T23:10:00Z"
+          title: "2024-12-31 23:10 UTC"
+        - kind: gold
+          gold_cha_time: "2024-12-31T23:22:00Z"
+          gold_chb_time: "2024-12-31T23:25:00Z"
+          title: "2024-12-31 23:23 UTC"
+        - kind: gold
+          gold_cha_time: "2024-12-31T23:52:00Z"
+          gold_chb_time: "2024-12-31T23:55:00Z"
+          title: "2024-12-31 23:53 UTC"
+        - kind: gold
+          gold_cha_time: "2025-01-01T00:22:00Z"
+          gold_chb_time: "2025-01-01T00:25:00Z"
+          title: "2025-01-01 00:23 UTC"
+        - kind: gold
+          gold_cha_time: "2024-12-31T23:52:00Z"
+          gold_chb_time: "2024-12-31T23:55:00Z"
+          title: "2024-12-31 23:53 UTC"
+    - name: overlay_2col_newyear2025
+      layout:
+        rows: 3
+        cols: 2
+      shared_colorbar: gold
+      slots:
+        - kind: gold
+          gold_cha_time: "2024-12-31T23:22:00Z"
+          gold_chb_time: "2024-12-31T23:25:00Z"
+          title: "GOLD 2024-12-31 23:23 UTC"
+        - kind: gold
+          gold_cha_time: "2024-12-31T23:52:00Z"
+          gold_chb_time: "2024-12-31T23:55:00Z"
+          title: "GOLD 2024-12-31 23:53 UTC"
+        - kind: gnss_roti
+          producer: isee
+          timestamp: "2024-12-31T23:25:00Z"
+          title: "ROTI 2024-12-31 23:25 UTC"
+        - kind: gnss_roti
+          producer: isee
+          timestamp: "2024-12-31T23:55:00Z"
+          title: "ROTI 2024-12-31 23:55 UTC"
+        - kind: overlay
+          gold_cha_time: "2024-12-31T23:22:00Z"
+          gold_chb_time: "2024-12-31T23:25:00Z"
+          gnss_timestamp: "2024-12-31T23:25:00Z"
+          title: "Overlay 2024-12-31 23:23/23:25 UTC"
+        - kind: overlay
+          gold_cha_time: "2024-12-31T23:52:00Z"
+          gold_chb_time: "2024-12-31T23:55:00Z"
+          gnss_timestamp: "2024-12-31T23:55:00Z"
+          title: "Overlay 2024-12-31 23:53/23:55 UTC"
+  station_series:
+    - name: boav_g17_g14
+      station_code: BOAV
+      station_id: 41636M001
+      window:
+        start: "2024-12-31T23:00:00Z"
+        end: "2025-01-01T04:00:00Z"
+      satellites: [G17, G14]

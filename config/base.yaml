@@ -1,0 +1,142 @@
+paths:
+  storage_root: storage
+
+bbox:
+  lon_min: -150.0
+  lon_max: 10.0
+  lat_min: -80.0
+  lat_max: 80.0
+
+auth:
+  cddis:
+    username: ""
+    password: ""
+
+sources:
+  gnss_raw:
+    providers:
+      noaa:
+        enabled: true
+        priority: 10
+        timeout_sec: 90
+        transport: https
+        network_kmz_url: https://geodesy.noaa.gov/CORS/data/kmz/NOAA_CORS_Network.kmz
+        base_obs_url: https://geodesy.noaa.gov/corsdata/rinex
+        fallback_base_obs_url: https://noaa-cors-pds.s3.amazonaws.com/rinex
+      rbmc:
+        enabled: true
+        priority: 20
+        timeout_sec: 90
+        transport: https
+        base_dir_url: https://geoftp.ibge.gov.br/informacoes_sobre_posicionamento_geodesico/rbmc/dados_RINEX3
+      ramsac:
+        enabled: true
+        priority: 30
+        timeout_sec: 90
+        transport: https
+        verify_ssl: false
+        stations_api_url: https://ramsac.ign.gob.ar/api/v1/estaciones
+        download_base_url: https://ramsac.ign.gob.ar/api/v1/rinex/download
+        requested_interval_sec: 15
+      cddis:
+        enabled: true
+        priority: 100
+        timeout_sec: 120
+        transport: https
+        station_codes: []
+        obs_url_template: https://cddis.nasa.gov/archive/gnss/data/daily/{year}/{doy}/{yy}d/{station}{doy}0.{yy}d.Z
+    auxiliary:
+      broadcast:
+        enabled: true
+        priority: 10
+        timeout_sec: 120
+        providers:
+          - name: cddis_daily_mixed_nav
+            priority: 10
+            auth: cddis
+            transport: https
+            url_template: https://cddis.nasa.gov/archive/gnss/data/daily/{yyyy}/{ddd}/{yy}p/BRDM00DLR_S_{yyyy}{ddd}0000_01D_MN.rnx.gz
+          - name: cddis_daily_gps_nav_legacy
+            priority: 20
+            auth: cddis
+            transport: https
+            url_template: https://cddis.nasa.gov/archive/gnss/data/daily/{yyyy}/{ddd}/{yy}n/brdc{ddd}0.{yy}n.Z
+      sp3:
+        enabled: true
+        priority: 20
+        timeout_sec: 120
+        providers:
+          - name: cddis_igs_fin_long
+            priority: 10
+            auth: cddis
+            transport: https
+            url_template: https://cddis.nasa.gov/archive/gnss/products/{gps_week}/IGS0OPSFIN_{yyyy}{ddd}0000_01D_15M_ORB.SP3.gz
+          - name: cddis_igs_rap_long
+            priority: 20
+            auth: cddis
+            transport: https
+            url_template: https://cddis.nasa.gov/archive/gnss/products/{gps_week}/IGS0OPSRAP_{yyyy}{ddd}0000_01D_15M_ORB.SP3.gz
+          - name: cddis_igs_fin_short
+            priority: 30
+            auth: cddis
+            transport: https
+            url_template: https://cddis.nasa.gov/archive/gnss/products/{gps_week}/igs{gps_week}{dow}.sp3.Z
+      dcb:
+        enabled: true
+        priority: 30
+        timeout_sec: 120
+        providers:
+          - name: cddis_cas1_ops_bia
+            priority: 10
+            transport: https
+            url_template: https://data.bdsmart.cn/pub/product/bias/{yyyy}/CAS1OPSRAP_{yyyy}{ddd}0000_01D_01D_DCB.BIA.gz
+          - name: cddis_cas0_ops_bia
+            priority: 20
+            transport: https
+            url_template: https://data.bdsmart.cn/pub/product/bias/{yyyy}/CAS0OPSRAP_{yyyy}{ddd}0000_01D_01D_DCB.BIA.gz
+      antex:
+        enabled: true
+        priority: 40
+        timeout_sec: 120
+        providers:
+          - name: cddis_igs20_atx
+            priority: 10
+            transport: https
+            url_template: https://files.igs.org/pub/station/general/igs20.atx.gz
+      station_logs:
+        enabled: true
+        priority: 50
+        timeout_sec: 90
+        best_effort: true
+        providers:
+          - name: cddis_station_log
+            priority: 10
+            auth: cddis
+            transport: https
+            url_template: https://cddis.nasa.gov/archive/gnss/data/station/{station_code4}.log
+
+runtime:
+  gnss_download_workers: 6
+  gnss_grid_download_workers: 6
+  gnss_grid_download_retries: 4
+  gnss_grid_download_timeout_sec: 120
+  gold_max_pair_minutes: 5
+  gold_max_emission_angle_deg: 88.0
+
+plot_defaults:
+  dpi: 220
+  figure_size: [12.0, 6.75]
+  font_family: Times New Roman
+  use_cartopy: true
+  show_magnetic_equator: true
+  magnetic_equator_color: red
+  magnetic_equator_linewidth: 1.2
+  gnss_styles:
+    vtec:
+      cmap: viridis
+      vmin: 0.0
+      vmax: 80.0
+    roti:
+      cmap: viridis
+      vmin: 0.0
+      vmax: 1.0
