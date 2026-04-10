@@ -52,7 +52,10 @@ coverage.xml
 Thumbs.db
 
 # Project specific - runtime data and cache
-storage/
+storage/cache/gnss_grid/
+storage/cache/gold/
+storage/cache/gnss_raw/observation/
+storage/runs/
 *.log
 
 # Jupyter Notebook
