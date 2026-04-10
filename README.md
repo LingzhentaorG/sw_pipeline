@@ -9,6 +9,8 @@
 - GOLD 底图叠加 GNSS 阈值图
 - 指定测站单星 TEC / ROTI 四宫格图
 
+详细介绍文档见：[docs/PROJECT_INTRODUCTION.md](docs/PROJECT_INTRODUCTION.md)
+
 ## CLI
 
 ```powershell
@@ -34,7 +36,7 @@ swp migrate-legacy --from D:\Desktop\lzt_code\lzt_thesis_code\GOLDdraw
 
 - 全局配置：`config/base.yaml`
 - 事件配置：`config/events/<event_id>.yaml`
-- 评审/示例配置：`config/reviews/`
+- 详细说明：`docs/PROJECT_INTRODUCTION.md`
 
 ## 目录
 
